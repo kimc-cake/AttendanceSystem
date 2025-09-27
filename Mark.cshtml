@@ -1,0 +1,44 @@
+﻿@page
+@model AttendanceSystem.Pages.Attendance.MarkModel
+
+@{
+    ViewData["Title"] = "Mark Attendance";
+}
+<h2>Mark Attendance</h2>
+
+<h2>Mark Attendance</h2>
+
+@if (!Model.Students.Any())
+{
+    <p>No students found. Go to <a asp-page="/Index">Home</a> and Seed Students first.</p>
+}
+else
+{
+    <form method="post">
+        <label>Student</label>
+        <select asp-for="StudentId" asp-items="@(new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Students, "Id", "Name"))"></select>
+        <br /><br />
+
+        <label>
+            <input type="checkbox" asp-for="IsPresent" /> Present
+        </label>
+        <br /><br />
+
+        <button type="submit">Save Attendance</button>
+    </form>
+}
+
+@if (TempData["Message"] != null)
+{
+    <p style="color:green">@TempData["Message"]</p>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div style="color:red;">
+        @foreach (var err in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@err.ErrorMessage</p>
+        }
+    </div>
+}
